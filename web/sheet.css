@@ -12,3 +12,8 @@ body {
     margin: auto;
     border: solid thin black;
 }
+
+#gamestate {
+    text-align: center;
+    color: red;
+}

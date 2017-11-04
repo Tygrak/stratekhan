@@ -1,37 +1,10 @@
 import 'dart:html';
+import 'board.dart';
 
 CanvasElement canvas;
 CanvasRenderingContext2D ctx;
-const int width = 15;
 Board board = new Board();
 bool playerTurn = true;
-
-class Board{
-  List<int> brd;
-  int redTurn;
- 
-  Board(){
-    brd = new List<int>(width*width);
-    redTurn = 1;
-  }
-
-  Board.copy(Board toCopy){
-    brd = new List.from(toCopy.brd);
-    redTurn = toCopy.redTurn;
-  }
-
-  void EndTurn(){
-    redTurn = redTurn == 1 ? 2 : 1;
-  }
-
-  int InLine(int pos, int x, int y){
-    
-  }
-
-  int CheckWin(int pos){
-    return 0;
-  }
-}
 
 void main() {
   canvas = querySelector("#canvas");
@@ -47,11 +20,6 @@ void Initialize(){
   }
 }
 
-void EndTurn(){
-  board.EndTurn();
-  DrawBoard();
-}
-
 void CanvasClicked(e){
   int xc = e.client.x - ctx.canvas.getBoundingClientRect().left;
   int yc = e.client.y - ctx.canvas.getBoundingClientRect().top;
@@ -60,8 +28,15 @@ void CanvasClicked(e){
   print("x: $x, y: $y");
   if (playerTurn){
     if (board.brd[x+y*15] == 0){
-      board.brd[x+y*15] = board.redTurn == 1 ? 1 : 2;
-      EndTurn();
+      int playerWon = board.PlaceEnd(x+y*15);
+      if (playerWon != 0){
+        print(playerWon);
+        playerTurn = false;
+        ParagraphElement element = querySelector("#gamestate");
+        element.appendText("Player$playerWon won!");
+      }
+      DrawBoard();
+      //playerTurn = false;
     }
   }
 }
