@@ -36,6 +36,10 @@ void CanvasClicked(e){
         element.appendText("Player$playerWon won!");
       }
       DrawBoard();
+      List<Move> threats = board.GetThreats();
+      for (var i = 0; i < threats.length; i++) {
+        print("${threats[i].pos} : ${threats[i].inRow}");
+      }
       //playerTurn = false;
     }
   }
